@@ -1,0 +1,13 @@
+data/
+.timenv
+.env
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.db
+*.log
+ipynb_checkpoints/
+.pytest_cache/
+*.whl
+*.coverage
