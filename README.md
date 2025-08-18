@@ -45,6 +45,44 @@ Build an interactive dashboard (e.g., using Streamlit or Dash) for stakeholders 
     Outputs include posterior distributions for change point dates (e.g., high probability around March 2020 for COVID/price war), number of points, and regime parameters (e.g., pre-break mean $60, post-break $20, with 95% credible intervals). Visuals like density plots for change points or segmented time series highlight uncertainty.
     The limitations is that the results are prior-dependent (e.g., assuming fixed vs. variable points affects detection). Bayesian sampling is computationally intensive for daily data. Models detect changes but not causes, potentially missing gradual shifts or compounding events. Data up to 2022 limits applicability to recent years (e.g., missing 2023-2025 events), and high volatility may lead to false positives without validation.
 
+## Task-2: Change Point Modeling and Insight Generation
+
+1.	Data Preparation and EDA: 
+    
+    The code loads the Brent oil price dataset (BrentOilPrices.csv) and converts the Date column to datetime format, handling potential parsing errors.
+    
+    It plots the raw price series to visualize trends and shocks (e.g., 1990 spike, 2008 drop, 2020 crash), aligning with the task's requirement to identify major trends visually.
+    
+    Log transformation is noted as an option for stabilizing variance, but raw prices are modeled for simplicity, as they directly address mean shifts.
+
+2.	Building the Bayesian Change Point Model: 
+    
+    The model uses PyMC to define two change points (tau1, tau2) with DiscreteUniform priors, ensuring ordered points (tau1 < tau2) to avoid identifiability issues.
+    
+    Three regime means (mu_1, mu_2, mu_3) are defined with Normal priors (centered at 50, reasonable for historical oil prices), and a  shared HalfNormal sigma handles variance.
+    
+    The switch function dynamically assigns the appropriate mean based on the time index, and a Normal likelihood ties the model to observed prices.
+    
+    MCMC sampling (pm.sample) runs with sufficient iterations to estimate posteriors, balancing computational feasibility with convergence.
+
+3.	Interpreting the Model Output: 
+    
+    Convergence is checked using az.summary (R-hat ≈ 1.0 indicates good mixing). Trace plots (az.plot_trace) are recommended for visual inspection, though not shown here due to text constraints.
+    
+    Posterior distributions of tau1 and tau2 are plotted to identify change point dates, with mean indices converted to dates for interpretability.
+    
+    Mean price shifts (mu_1, mu_2, mu_3) are extracted from posteriors to quantify regime changes, supporting probabilistic statements like "95% probability the mean price increased post-2020."
+4.	Associate Changes with Causes: 
+    
+    The code compares detected change points to the event dataset from Task 1, finding the closest event by date to formulate hypotheses (e.g., 2020-04-21 change likely tied to COVID-19/price war).
+    
+    This aligns with the task's requirement to link breaks to events, acknowledging that temporal proximity suggests correlation, not causation.
+
+5.	Quantify the Impact: 
+    
+    For each change point, the code calculates mean prices 100 days before and after (adjustable window) to estimate shifts (e.g., "Price shifted from $X to $Y, Z% change").
+    
+    This matches the task's requirement for quantitative impact statements, using data-driven estimates rather than model parameters for direct interpretability.
 
 ## Project Structure
 
@@ -56,13 +94,16 @@ timeseries-statistical-modeling/
 │   └── oil_market_events.csv              # event data extracted with research
 ├── notebooks/
 |   ├── README.md
+|   ├── modeling_insight_gen.ipynb 
+|   ├── task-notebook.ipynb 
 ├── scripts/
 |   ├── __init__.py 
-|   ├── task-1-notebook.ipynb 
 ├── src/
 │   ├── __init__.py
+|   ├── data_loader.py
 ├── tests/
 |   ├── __init__.py
+|   ├── test_data_load.py
 ├── requirements.txt
 ├── .gitignore
 ├── LICENSE
