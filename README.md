@@ -84,6 +84,59 @@ Build an interactive dashboard (e.g., using Streamlit or Dash) for stakeholders 
     
     This matches the task's requirement for quantitative impact statements, using data-driven estimates rather than model parameters for direct interpretability.
 
+## Task 3: Developing an Interactive Dashboard for Data Analysis Results
+
+ The backend serves APIs for prices, events, and change points. The frontend uses Recharts for visualizations, with filters and responsiveness via React Bootstrap.
+    Backend (Flask)
+        The Flask backend provides REST APIs to serve the data. 
+        
+        Save this as app.py and can be run with flask run (assuming Flask is installed in your environment).
+
+        First installed the needed libraries using pip
+
+        pip install flask flask-cors pandas
+
+        Then created app.py, with end point.
+
+            @app.route('/api/prices', methods=['GET'])
+
+            @app.route('/api/events', methods=['GET'])
+
+            @app.route('/api/change_points', methods=['GET'])
+
+            @app.route('/api/metrics', methods=['GET'])
+
+        I run flask run and start the backend, with going to the folder 
+
+        (.timenv) \timeseries-statistical-modeling\oil-price-backend\api> 
+
+        (.timenv)  \timeseries-statistical-modeling\oil-price-backend\api>flask run 
+
+    Backend Running using flask
+
+    ![Backend Api](images/backend.png)
+
+    Frontend (React)
+
+        The React frontend is a single-page app with a line chart for prices, markers for events and change points, date range filters, and metrics display. I used Recharts for charts. 
+
+        I created a new React app with create-react-app, then I prepared my frontend logic inside src/App.js. 
+
+        npx create-react-app oil-prices-frontend
+
+        I installed dependencies using:
+
+        npm install recharts react-datepicker react-bootstrap bootstrap axios.
+
+        Since this dashboard is dependent on the backend after starting the backend, I started the frontend which is done using react using the following command.
+
+        (.timenv) C:\Users\ASTU-PG\timeseries-statistical-modeling\oil-price-frontend>npm start
+
+        ![Dashboard](images/backend.png)
+
+        ![Dashboard](images/backend.png)
+
+
 ## Project Structure
 
 <pre>
@@ -92,10 +145,28 @@ timeseries-statistical-modeling/
 ├── data/                      
 │   ├── BrentOilPrices.csv                 # raw data  
 │   └── oil_market_events.csv              # event data extracted with research
+├── images/     # Shows images 
 ├── notebooks/
 |   ├── README.md
 |   ├── modeling_insight_gen.ipynb 
-|   ├── task-notebook.ipynb 
+|   └── task-notebook.ipynb 
+├── oil-price-backend/
+|   ├── __init__.py 
+|   └── api/
+|        ├── __init__.py 
+|        └── app.py  # api end points
+├── oil-price-frontend/
+|               ├── public/  # api end points    
+|               ├── src/  # api end points 
+|               |      ├── App.js  # js file
+|               |      ├── App.test.js  # css files
+|               |      ├── App.css  # css files
+|               |      ├── index.js  # css files
+|               |      ├── index.css  # css files
+|               ├── package-lock.json
+|               ├── package.json
+|               ├── .gitignore
+|               └── README.md
 ├── scripts/
 |   ├── __init__.py 
 ├── src/
@@ -103,7 +174,7 @@ timeseries-statistical-modeling/
 |   ├── data_loader.py
 ├── tests/
 |   ├── __init__.py
-|   ├── test_data_load.py
+|   └── test_data_load.py
 ├── requirements.txt
 ├── .gitignore
 ├── LICENSE
