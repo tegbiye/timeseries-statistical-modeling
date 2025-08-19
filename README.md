@@ -95,15 +95,15 @@ timeseries-statistical-modeling/
 ├── notebooks/
 |   ├── README.md
 |   ├── modeling_insight_gen.ipynb 
-|   ├── task-notebook.ipynb 
+|   └── task-notebook.ipynb 
 ├── scripts/
-|   ├── __init__.py 
+|   └── __init__.py 
 ├── src/
 │   ├── __init__.py
-|   ├── data_loader.py
+|   └── data_loader.py
 ├── tests/
 |   ├── __init__.py
-|   ├── test_data_load.py
+|   └── test_data_load.py
 ├── requirements.txt
 ├── .gitignore
 ├── LICENSE
