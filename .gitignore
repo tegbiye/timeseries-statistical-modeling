@@ -11,3 +11,4 @@ ipynb_checkpoints/
 .pytest_cache/
 *.whl
 *.coverage
+node_modules/

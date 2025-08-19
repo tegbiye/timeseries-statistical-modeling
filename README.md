@@ -56,11 +56,11 @@ timeseries-statistical-modeling/
 │   └── oil_market_events.csv              # event data extracted with research
 ├── notebooks/
 |   ├── README.md
+|   └──  task-1-notebook.ipynb 
 ├── scripts/
-|   ├── __init__.py 
-|   ├── task-1-notebook.ipynb 
+|   └──  __init__.py 
 ├── src/
-│   ├── __init__.py
+│   └──  __init__.py
 ├── tests/
 |   ├── __init__.py
 ├── requirements.txt
