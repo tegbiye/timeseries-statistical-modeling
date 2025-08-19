@@ -90,51 +90,51 @@ The limitations is that the results are prior-dependent (e.g., assuming fixed vs
     Backend (Flask)
         The Flask backend provides REST APIs to serve the data. 
         
-        Save this as app.py and can be run with flask run (assuming Flask is installed in your environment).
+   Save this as app.py and can be run with flask run (assuming Flask is installed in your environment).
 
-        First installed the needed libraries using pip
+   First installed the needed libraries using pip
 
-        pip install flask flask-cors pandas
+   pip install flask flask-cors pandas
 
-        Then created app.py, with end point.
+   Then created app.py, with end point.
 
-            @app.route('/api/prices', methods=['GET'])
+   @app.route('/api/prices', methods=['GET'])
 
-            @app.route('/api/events', methods=['GET'])
+   @app.route('/api/events', methods=['GET'])
 
-            @app.route('/api/change_points', methods=['GET'])
+   @app.route('/api/change_points', methods=['GET'])
 
-            @app.route('/api/metrics', methods=['GET'])
+   @app.route('/api/metrics', methods=['GET'])
 
-        I run flask run and start the backend, with going to the folder 
+   I run flask run and start the backend, with going to the folder 
 
-        (.timenv) \timeseries-statistical-modeling\oil-price-backend\api> 
+   (.timenv) \timeseries-statistical-modeling\oil-price-backend\api> 
 
-        (.timenv)  \timeseries-statistical-modeling\oil-price-backend\api>flask run 
+   (.timenv)  \timeseries-statistical-modeling\oil-price-backend\api>flask run 
 
-    Backend Running using flask
+   Backend Running using flask
 
-    ![Backend Api](images/backend.png)
+   ![Backend Api](images/backend.png)
 
-    Frontend (React)
+   Frontend (React)
 
-        The React frontend is a single-page app with a line chart for prices, markers for events and change points, date range filters, and metrics display. I used Recharts for charts. 
+   The React frontend is a single-page app with a line chart for prices, markers for events and change points, date range filters, and metrics display. I used Recharts for charts. 
 
-        I created a new React app with create-react-app, then I prepared my frontend logic inside src/App.js. 
+   I created a new React app with create-react-app, then I prepared my frontend logic inside src/App.js. 
 
-        npx create-react-app oil-prices-frontend
+   npx create-react-app oil-prices-frontend
 
-        I installed dependencies using:
+   I installed dependencies using:
 
-        npm install recharts react-datepicker react-bootstrap bootstrap axios.
+   npm install recharts react-datepicker react-bootstrap bootstrap axios.
 
-        Since this dashboard is dependent on the backend after starting the backend, I started the frontend which is done using react using the following command.
+   Since this dashboard is dependent on the backend after starting the backend, I started the frontend which is done using react using the following command.
 
-        (.timenv) C:\Users\ASTU-PG\timeseries-statistical-modeling\oil-price-frontend>npm start
+   (.timenv) C:\Users\ASTU-PG\timeseries-statistical-modeling\oil-price-frontend>npm start
 
-        ![Dashboard](images/backend.png)
+   ![Dashboard](images/backend.png)
 
-        ![Dashboard](images/backend.png)
+   ![Dashboard](images/backend.png)
 
 
 ## Project Structure
