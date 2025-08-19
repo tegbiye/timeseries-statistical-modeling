@@ -132,9 +132,9 @@ The limitations is that the results are prior-dependent (e.g., assuming fixed vs
 
    (.timenv) C:\Users\ASTU-PG\timeseries-statistical-modeling\oil-price-frontend>npm start
 
-   ![Dashboard](images/backend.png)
+   ![Dashboard](images/dashboard_1.png)
 
-   ![Dashboard](images/backend.png)
+   ![Dashboard](images/dashboard_2.png)
 
 
 ## Project Structure
