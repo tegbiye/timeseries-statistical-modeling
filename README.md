@@ -22,28 +22,28 @@ Test model robustness to different priors (e.g., varying change point rates) or 
 Build an interactive dashboard (e.g., using Streamlit or Dash) for stakeholders to explore results (e.g., interactive plots of prices with change points and events). Generate a final report with key findings.
 
 #### Research and Compile Event Data
-    Major events were researched from historical and recent sources, focusing on those impacting oil supply, demand, or sentiment. The dataset was expanded with events from 2023-2025 based on current geopolitical developments, compiling 13 key events. Dates are approximate start points. Below is the updated structured dataset in table format (equivalent to a CSV export): It is saved as **oil_events.csv**
+Major events were researched from historical and recent sources, focusing on those impacting oil supply, demand, or sentiment. The dataset was expanded with events from 2023-2025 based on current geopolitical developments, compiling 13 key events. Dates are approximate start points. Below is the updated structured dataset in table format (equivalent to a CSV export): It is saved as **oil_events.csv**
 
 #### Assumption and Limitations
 
-    Assumptions: 
-    The daily Brent price data captures market dynamics sufficiently for detecting macro-level changes. Events are assumed to have potential lagged or immediate impacts, and the Bayesian model assumes Gaussian noise with switches in mean/variance. Prices are modeled without log-transformation initially, assuming normality for simplicity.
+   Assumptions: 
+The daily Brent price data captures market dynamics sufficiently for detecting macro-level changes. Events are assumed to have potential lagged or immediate impacts, and the Bayesian model assumes Gaussian noise with switches in mean/variance. Prices are modeled without log-transformation initially, assuming normality for simplicity.
 
-    Limitations: 
-    The provided dataset ends in November 2022, limiting analysis to historical trends up to that point (current date: August 5, 2025); recent data could be fetched for extension but is not included here. High-frequency noise (e.g., intra-day volatility) or un-modeled factors (e.g., currency fluctuations, inventory reports) may obscure breaks. Importantly, statistical correlations between change points and events (e.g., a price spike aligning with the 2022 Russian invasion) do not prove causation confounding variables (e.g., simultaneous demand changes) or coincidences could explain alignments. Proving causation requires causal inference techniques like difference-in-differences or vector auto regression, which are infeasible without experimental controls in global markets. Model limitations include computational demands for long series (~9,000 observations) and sensitivity to prior specifications (e.g., overestimating change points with loose priors).
+   Limitations: 
+The provided dataset ends in November 2022, limiting analysis to historical trends up to that point (current date: August 5, 2025); recent data could be fetched for extension but is not included here. High-frequency noise (e.g., intra-day volatility) or un-modeled factors (e.g., currency fluctuations, inventory reports) may obscure breaks. Importantly, statistical correlations between change points and events (e.g., a price spike aligning with the 2022 Russian invasion) do not prove causation confounding variables (e.g., simultaneous demand changes) or coincidences could explain alignments. Proving causation requires causal inference techniques like difference-in-differences or vector auto regression, which are infeasible without experimental controls in global markets. Model limitations include computational demands for long series (~9,000 observations) and sensitivity to prior specifications (e.g., overestimating change points with loose priors).
 
 ### b. Understanding the Model and Data
 
-    Main References: Key concepts are drawn from PyMC documentation (pymc.io) for Bayesian modeling, "Bayesian Data Analysis" by Gelman et al. For inference principles, and papers like "Bayesian Change Point Analysis of Time Series" by Western and Kleykamp (2004) and in addition PyMC examples on change point detection. Additional resources include "Time Series Analysis and Its Applications" by Shumway and Stoffer for properties, and EIA/Marcotrends for oil data context.
+Main References: Key concepts are drawn from PyMC documentation (pymc.io) for Bayesian modeling, "Bayesian Data Analysis" by Gelman et al. For inference principles, and papers like "Bayesian Change Point Analysis of Time Series" by Western and Kleykamp (2004) and in addition PyMC examples on change point detection. Additional resources include "Time Series Analysis and Its Applications" by Shumway and Stoffer for properties, and EIA/Marcotrends for oil data context.
 
-    Analyze Time Series Properties: 
-    The provided Brent oil price data (daily from May 20, 1987, to November 14, 2022, n ≈ 8,900 observations) was examined. The series shows a long-term upward trend with significant volatility: prices start around $18/barrel in 1987, peak at $133.18 in March 2022 amid Ukraine invasion, and dip to $9.12 in April 2020 during COVID-19. Mean price is approximately $58.50, min $9.12, max $133.18. Visual inspection reveals non-stationary behavior with regime shifts (e.g., sharp drops in 2008, 2014, 2020) and no clear seasonality, but event-driven shocks.
-    Stationarity was tested using the Augmented Dickey-Fuller (ADF) test: ADF Statistic ≈ -1.85, p-value ≈ 0.68, indicating non-stationarity (fail to reject null of unit root). After first differencing, ADF Statistic ≈ -15.2, p-value ≈ 0.0, confirming the differenced series is stationary. These properties inform modeling: Change point models handle level shifts directly, avoiding mandatory differencing, but trend awareness prevents confusing gradual increases (e.g., due to inflation) with abrupt breaks.
+   Analyze Time Series Properties: 
+The provided Brent oil price data (daily from May 20, 1987, to November 14, 2022, n ≈ 8,900 observations) was examined. The series shows a long-term upward trend with significant volatility: prices start around $18/barrel in 1987, peak at $133.18 in March 2022 amid Ukraine invasion, and dip to $9.12 in April 2020 during COVID-19. Mean price is approximately $58.50, min $9.12, max $133.18. Visual inspection reveals non-stationary behavior with regime shifts (e.g., sharp drops in 2008, 2014, 2020) and no clear seasonality, but event-driven shocks.
+Stationarity was tested using the Augmented Dickey-Fuller (ADF) test: ADF Statistic ≈ -1.85, p-value ≈ 0.68, indicating non-stationarity (fail to reject null of unit root). After first differencing, ADF Statistic ≈ -15.2, p-value ≈ 0.0, confirming the differenced series is stationary. These properties inform modeling: Change point models handle level shifts directly, avoiding mandatory differencing, but trend awareness prevents confusing gradual increases (e.g., due to inflation) with abrupt breaks.
     Purpose of Change Point Models:
-    In the context of Brent oil price fluctuations, change point models detect sudden structural breaks where the underlying data process changes (e.g., shift in mean price from high-supply to shortage regimes). Bayesian approaches via PyMC incorporate uncertainty through priors and posteriors, allowing probabilistic identification of breaks (e.g., post-1990 Gulf War spike). This aids in isolating external influences like geopolitical shocks from normal volatility, supporting business objectives such as forecasting, risk assessment, and policy responses in energy markets.
+In the context of Brent oil price fluctuations, change point models detect sudden structural breaks where the underlying data process changes (e.g., shift in mean price from high-supply to shortage regimes). Bayesian approaches via PyMC incorporate uncertainty through priors and posteriors, allowing probabilistic identification of breaks (e.g., post-1990 Gulf War spike). This aids in isolating external influences like geopolitical shocks from normal volatility, supporting business objectives such as forecasting, risk assessment, and policy responses in energy markets.
     Expected Outputs and Limitations: 
-    Outputs include posterior distributions for change point dates (e.g., high probability around March 2020 for COVID/price war), number of points, and regime parameters (e.g., pre-break mean $60, post-break $20, with 95% credible intervals). Visuals like density plots for change points or segmented time series highlight uncertainty.
-    The limitations is that the results are prior-dependent (e.g., assuming fixed vs. variable points affects detection). Bayesian sampling is computationally intensive for daily data. Models detect changes but not causes, potentially missing gradual shifts or compounding events. Data up to 2022 limits applicability to recent years (e.g., missing 2023-2025 events), and high volatility may lead to false positives without validation.
+Outputs include posterior distributions for change point dates (e.g., high probability around March 2020 for COVID/price war), number of points, and regime parameters (e.g., pre-break mean $60, post-break $20, with 95% credible intervals). Visuals like density plots for change points or segmented time series highlight uncertainty.
+The limitations is that the results are prior-dependent (e.g., assuming fixed vs. variable points affects detection). Bayesian sampling is computationally intensive for daily data. Models detect changes but not causes, potentially missing gradual shifts or compounding events. Data up to 2022 limits applicability to recent years (e.g., missing 2023-2025 events), and high volatility may lead to false positives without validation.
 
 ## Task-2: Change Point Modeling and Insight Generation
 
@@ -168,10 +168,10 @@ timeseries-statistical-modeling/
 |               ├── .gitignore
 |               └── README.md
 ├── scripts/
-|   ├── __init__.py 
+|   └── __init__.py 
 ├── src/
 │   ├── __init__.py
-|   ├── data_loader.py
+|   └── data_loader.py
 ├── tests/
 |   ├── __init__.py
 |   └── test_data_load.py
