@@ -26,17 +26,17 @@ Major events were researched from historical and recent sources, focusing on tho
 
 #### Assumption and Limitations
 
-    Assumptions: 
+   Assumptions: 
 The daily Brent price data captures market dynamics sufficiently for detecting macro-level changes. Events are assumed to have potential lagged or immediate impacts, and the Bayesian model assumes Gaussian noise with switches in mean/variance. Prices are modeled without log-transformation initially, assuming normality for simplicity.
 
-    Limitations: 
+   Limitations: 
 The provided dataset ends in November 2022, limiting analysis to historical trends up to that point (current date: August 5, 2025); recent data could be fetched for extension but is not included here. High-frequency noise (e.g., intra-day volatility) or un-modeled factors (e.g., currency fluctuations, inventory reports) may obscure breaks. Importantly, statistical correlations between change points and events (e.g., a price spike aligning with the 2022 Russian invasion) do not prove causation confounding variables (e.g., simultaneous demand changes) or coincidences could explain alignments. Proving causation requires causal inference techniques like difference-in-differences or vector auto regression, which are infeasible without experimental controls in global markets. Model limitations include computational demands for long series (~9,000 observations) and sensitivity to prior specifications (e.g., overestimating change points with loose priors).
 
 ### b. Understanding the Model and Data
 
 Main References: Key concepts are drawn from PyMC documentation (pymc.io) for Bayesian modeling, "Bayesian Data Analysis" by Gelman et al. For inference principles, and papers like "Bayesian Change Point Analysis of Time Series" by Western and Kleykamp (2004) and in addition PyMC examples on change point detection. Additional resources include "Time Series Analysis and Its Applications" by Shumway and Stoffer for properties, and EIA/Marcotrends for oil data context.
 
-    Analyze Time Series Properties: 
+   Analyze Time Series Properties: 
 The provided Brent oil price data (daily from May 20, 1987, to November 14, 2022, n ≈ 8,900 observations) was examined. The series shows a long-term upward trend with significant volatility: prices start around $18/barrel in 1987, peak at $133.18 in March 2022 amid Ukraine invasion, and dip to $9.12 in April 2020 during COVID-19. Mean price is approximately $58.50, min $9.12, max $133.18. Visual inspection reveals non-stationary behavior with regime shifts (e.g., sharp drops in 2008, 2014, 2020) and no clear seasonality, but event-driven shocks.
 Stationarity was tested using the Augmented Dickey-Fuller (ADF) test: ADF Statistic ≈ -1.85, p-value ≈ 0.68, indicating non-stationarity (fail to reject null of unit root). After first differencing, ADF Statistic ≈ -15.2, p-value ≈ 0.0, confirming the differenced series is stationary. These properties inform modeling: Change point models handle level shifts directly, avoiding mandatory differencing, but trend awareness prevents confusing gradual increases (e.g., due to inflation) with abrupt breaks.
     Purpose of Change Point Models:
